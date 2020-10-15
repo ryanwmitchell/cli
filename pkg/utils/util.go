@@ -152,8 +152,12 @@ func execCommand(cmd *exec.Cmd) (int, error) {
 	// no need to manually send them to the subprocess since it's in the same process group
 	go func() {
 		for {
-			// ignore
-			<-sigChan
+			// forward signal to subprocess
+			sig := <-sigChan
+			switch sig {
+			case syscall.SIGTERM:
+				cmd.Process.Signal(sig) // #nosec G104
+			}
 		}
 	}()
 
