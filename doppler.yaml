@@ -1,3 +1,5 @@
 setup:
   project: cli
   config: dev
+name: Install Doppler CLI
+  uses: DopplerHQ/cli-action@v1
